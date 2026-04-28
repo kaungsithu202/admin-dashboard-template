@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta name="theme-color" content="#070d1a" />
+    <meta
+      name="description"
+      content="Web site created using create-tsrouter-app"
+    />
+    <script>
+      (function () {
+        try {
+          var storageKey = "aura-theme";
+          var storedTheme = window.localStorage.getItem(storageKey);
+          var theme =
+            storedTheme === "light" ||
+            storedTheme === "dark" ||
+            storedTheme === "system"
+              ? storedTheme
+              : "dark";
+          var prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)"
+          ).matches;
+          var resolvedTheme =
+            theme === "system" ? (prefersDark ? "dark" : "light") : theme;
+
+          var root = document.documentElement;
+          root.classList.toggle("dark", resolvedTheme === "dark");
+          root.style.colorScheme = resolvedTheme;
+
+          var themeColorMeta = document.querySelector('meta[name="theme-color"]');
+
+          if (themeColorMeta) {
+            themeColorMeta.setAttribute(
+              "content",
+              resolvedTheme === "dark" ? "#070d1a" : "#f5f7ff"
+            );
+          }
+        } catch (error) {
+          document.documentElement.classList.add("dark");
+          document.documentElement.style.colorScheme = "dark";
+        }
+      })();
+    </script>
+    <link rel="icon" type="image/png" href="/aura.png" />
+    <link rel="manifest" href="/manifest.json" />
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
